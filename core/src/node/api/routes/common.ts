@@ -17,18 +17,25 @@ export const commonRouter = async (app: HttpServer) => {
     app.get(`/${key}`, async (_request) => getBuilder(JanApiRouteConfiguration[key]))
 
     app.get(`/${key}/:id`, async (request: any) =>
-      retrieveBuilder(JanApiRouteConfiguration[key], request.params.id),
+      retrieveBuilder(JanApiRouteConfiguration[key], request.params.id)
     )
 
     app.delete(`/${key}/:id`, async (request: any) =>
-      deleteBuilder(JanApiRouteConfiguration[key], request.params.id),
+      deleteBuilder(JanApiRouteConfiguration[key], request.params.id)
     )
   })
 
   // Download Model Routes
   app.get(`/models/download/:modelId`, async (request: any) =>
-    downloadModel(request.params.modelId, { ignoreSSL: request.query.ignoreSSL === 'true', proxy: request.query.proxy }),
+    downloadModel(request.params.modelId, {
+      ignoreSSL: request.query.ignoreSSL === 'true',
+      proxy: request.query.proxy,
+    })
   )
+
+  app.get(`/models/start`, async (request: any) => {})
+
+  app.get(`/models/stop`, async (request: any) => {})
 
   // Chat Completion Routes
   app.post(`/chat/completions`, async (request: any, reply: any) => chatCompletions(request, reply))
